@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import './App.css'
+import NewUser from './components/NewUser';
 
 function App() {
   const [userData, setUser] = useState([])
@@ -17,20 +18,21 @@ function App() {
     return(response.data)
   }
 
-  const {data,error,isLoading} =useQuery({
+  useQuery({
     queryKey:["users"],
     queryFn:userList,
+    enabled:true,
+    refetchOnWindowFocus:false
   })
 
-  const handleClick=async()=>{
-    let newUser={id:5,name:"Rajuu"}
-    let response= await axios.post("http://localhost:5000/users",newUser)
-    console.log(response)
-  }
-  console.log(data,"==data",error,"==error",isLoading,"==isloading")
+  // const handleClick=async()=>{
+  //   let newUser={id:5,name:"Rajuu"}
+  //   let response= await axios.post("http://localhost:5000/users",newUser)
+  //   console.log(userData.length,"length")
+  // }
   return (
     <>
-      <div>hbbhjgvhyjvg</div>
+      <div>User List</div>
       <div>
         <ul>
       {userData ? (
@@ -42,7 +44,8 @@ function App() {
       )}
     </ul>
       </div>
-      <button onClick={handleClick}>add user</button>
+      <NewUser count={userData.length}/>
+      {/* <button onClick={handleClick}>user length</button> */}
       
     </>
   )
